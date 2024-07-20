@@ -50,7 +50,7 @@ Add the package to your `pubspec.yaml` file.
 
 ```yaml
 dependencies:
-  international_phone_text_field: ^0.0.1+3
+  international_phone_text_field: ^0.0.1+4
 ```
 
 and run `flutter pub get` to install the package.

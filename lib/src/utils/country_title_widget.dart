@@ -6,7 +6,8 @@ class CountryTitle extends StatelessWidget {
   CountryTitle({
     super.key,
     required this.state,
-    this.style = const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+    this.style = const TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
     required this.onTap,
     required this.notFoundCountryMessage,
     this.countryTextStyle,
@@ -40,7 +41,8 @@ class CountryTitle extends StatelessWidget {
                     height: 18,
                     width: 34,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => WrongFlagContainer(),
+                    errorBuilder: (context, error, stackTrace) =>
+                        WrongFlagContainer(),
                   ),
                 )
               else
@@ -73,7 +75,9 @@ class CountryTitle extends StatelessWidget {
                         ),
                   ),
                 ),
-          crossFadeState: state.selectedCountryCode.isNotEmpty() ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          crossFadeState: state.selectedCountryCode.isNotEmpty()
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
           duration: Duration(milliseconds: 400),
         ),
       ),
