@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:international_phone_text_field/src/international_phone_text_field_base.dart';
+import 'package:international_phone_text_field/international_phone_text_field.dart';
 
 void main() {
   runApp(
@@ -22,8 +22,13 @@ class MyApp extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            /// InternationalPhoneTextField widget
+            /// with onChanged callback
             InternationalPhoneTextField(
               onChanged: (number) {},
+
+              /// control the style of the text
+              /// default is false
               inOneLine: true,
             ),
           ],

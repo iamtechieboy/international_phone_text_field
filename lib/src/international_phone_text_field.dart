@@ -178,10 +178,11 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                       ),
                     ],
                     CodePartWidget(
-                      widget: widget,
                       codeController: codeController,
                       codeFocusNode: _codeFocusNode,
                       controllerBloc: controllerBloc,
+                      style: widget.style,
+                      cursorColor: widget.cursorColor,
                     ),
                     Container(
                       width: 1,
