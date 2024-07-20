@@ -12,3 +12,7 @@
 - Updated all packages to the latest version
 - Some minor changes in the code
 - Formatted the code
+
+## 0.0.1+3
+
+- Some minor changes in the code

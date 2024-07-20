@@ -43,7 +43,9 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                             height: 44,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
-                            margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16).copyWith(right: 0),
+                            margin: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16)
+                                .copyWith(right: 0),
                             decoration: BoxDecoration(
                               color: Colors.white24,
                               borderRadius: BorderRadius.circular(16),
@@ -59,12 +61,15 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: TextFormField(
                                       controller: controller,
                                       autofocus: true,
                                       onChanged: (String text) {
-                                        context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(text));
+                                        context
+                                            .read<PhoneControllerBloc>()
+                                            .add(SearchCountryCodesEvent(text));
                                       },
                                       style: TextStyle(
                                         color: Colors.black,
@@ -88,7 +93,9 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                       return GestureDetector(
                                         onTap: () {
                                           controller.clear();
-                                          context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                                          context
+                                              .read<PhoneControllerBloc>()
+                                              .add(SearchCountryCodesEvent(''));
                                         },
                                         child: Icon(
                                           Icons.clear,
@@ -107,7 +114,9 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         GestureDetector(
                           onTap: () {
                             controller.clear();
-                            context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                            context
+                                .read<PhoneControllerBloc>()
+                                .add(SearchCountryCodesEvent(''));
                             Navigator.pop(context);
                           },
                           behavior: HitTestBehavior.opaque,
@@ -130,17 +139,23 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         controller: scrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          CountryCodes? country = state.searchedCountryCodes[index];
+                          CountryCodes? country =
+                              state.searchedCountryCodes[index];
                           return GestureDetector(
                             onTap: () {
-                              context.read<PhoneControllerBloc>().add(SelectCountryCodeEvent(country));
+                              context
+                                  .read<PhoneControllerBloc>()
+                                  .add(SelectCountryCodeEvent(country));
                               Navigator.pop(context);
                               controller.clear();
-                              context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                              context
+                                  .read<PhoneControllerBloc>()
+                                  .add(SearchCountryCodesEvent(''));
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
                               child: Row(
                                 children: [
                                   Container(

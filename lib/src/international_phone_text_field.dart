@@ -59,8 +59,10 @@ class InternationalPhoneTextField extends StatefulWidget {
   InternationalPhoneTextField({
     Key? key,
     this.autoFocus = false,
-    this.style = const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
-    this.hintStyle = const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black26),
+    this.style = const TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+    this.hintStyle = const TextStyle(
+        fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black26),
     required this.onChanged,
     this.onCountrySelected,
     this.cursorColor = Colors.black,
@@ -72,11 +74,14 @@ class InternationalPhoneTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InternationalPhoneTextField> createState() => _InternationalPhoneTextFieldState();
+  State<InternationalPhoneTextField> createState() =>
+      _InternationalPhoneTextFieldState();
 }
 
-class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextField> {
-  final TextEditingController phoneController = TextEditingController(text: nonWidthSpace);
+class _InternationalPhoneTextFieldState
+    extends State<InternationalPhoneTextField> {
+  final TextEditingController phoneController =
+      TextEditingController(text: nonWidthSpace);
   final TextEditingController codeController = TextEditingController();
   final _phoneFocusNode = FocusNode();
   final _codeFocusNode = FocusNode();
@@ -122,7 +127,8 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
           if (state.selectedCountryCode.isNotEmpty()) {
             if (state.selectedCountryCode.isNotEmpty()) {
               formatter = [
-                LengthLimitingTextInputFormatter(state.selectedCountryCode.phoneMask.length),
+                LengthLimitingTextInputFormatter(
+                    state.selectedCountryCode.phoneMask.length),
                 phoneFormatter(mask: state.selectedCountryCode.phoneMask),
               ];
             }
@@ -136,7 +142,8 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                 ? widget.decoration ??
                     BoxDecoration(
                       border: Border.all(
-                        color: (_phoneFocusNode.hasFocus || _codeFocusNode.hasFocus)
+                        color: (_phoneFocusNode.hasFocus ||
+                                _codeFocusNode.hasFocus)
                             ? Colors.lightBlueAccent
                             : Colors.black12,
                       ),
@@ -215,15 +222,20 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                             onChanged: (String text) {
                               if (text.isEmpty) {
                                 _codeFocusNode.requestFocus();
-                              } else if (!state.selectedCountryCode.isNotEmpty()) {
+                              } else if (!state.selectedCountryCode
+                                  .isNotEmpty()) {
                                 controllerBloc.add(FindCountryCode(code: text));
                               } else {
-                                controllerBloc.add(AdditionalFinder(code: text));
+                                controllerBloc
+                                    .add(AdditionalFinder(code: text));
                               }
 
-                              var actualText = phoneFormatter(mask: state.selectedCountryCode.phoneMask)
-                                  .unmaskText(text.replaceAll(nonWidthSpace, ""));
-                              widget.onChanged("+${state.selectedCountryCode.internalPhoneCode}${actualText}");
+                              var actualText = phoneFormatter(
+                                      mask: state.selectedCountryCode.phoneMask)
+                                  .unmaskText(
+                                      text.replaceAll(nonWidthSpace, ""));
+                              widget.onChanged(
+                                  "+${state.selectedCountryCode.internalPhoneCode}${actualText}");
                             },
                             onTap: () {
                               if (phoneController.text.isEmpty) {
@@ -239,11 +251,19 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                               builder: (_, value, child) {
                                 final hintController = TextEditingController();
                                 if (state.selectedCountryCode.isNotEmpty()) {
-                                  var phoneLength = value.text.replaceAll(nonWidthSpace, "").length;
-                                  var actualText = phoneFormatter(mask: state.selectedCountryCode.phoneMask)
-                                      .unmaskText(value.text.replaceAll(nonWidthSpace, ""));
+                                  var phoneLength = value.text
+                                      .replaceAll(nonWidthSpace, "")
+                                      .length;
+                                  var actualText = phoneFormatter(
+                                          mask: state
+                                              .selectedCountryCode.phoneMask)
+                                      .unmaskText(value.text
+                                          .replaceAll(nonWidthSpace, ""));
                                   String maskFull = List.generate(
-                                          state.selectedCountryCode.phoneMask.length - phoneLength, (index) => "0")
+                                          state.selectedCountryCode.phoneMask
+                                                  .length -
+                                              phoneLength,
+                                          (index) => "0")
                                       .toString()
                                       .replaceAll("[", "")
                                       .replaceAll("]", "")
@@ -252,12 +272,16 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
 
                                   final actualMaskText = actualText + maskFull;
 
-                                  var finalMaskText =
-                                      phoneFormatter(mask: state.selectedCountryCode.phoneMask).maskText(
+                                  var finalMaskText = phoneFormatter(
+                                          mask: state
+                                              .selectedCountryCode.phoneMask)
+                                      .maskText(
                                     actualMaskText,
                                   );
                                   hintController.text = finalMaskText;
-                                } else if (value.text.replaceAll(nonWidthSpace, "").isNotEmpty) {
+                                } else if (value.text
+                                    .replaceAll(nonWidthSpace, "")
+                                    .isNotEmpty) {
                                   hintController.text = value.text;
                                 }
                                 return TextField(
