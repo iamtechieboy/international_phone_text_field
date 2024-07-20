@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class CountryCodes extends Equatable{
+class CountryCodes extends Equatable {
   final String country;
   final String countryRU;
   final String internalPhoneCode;

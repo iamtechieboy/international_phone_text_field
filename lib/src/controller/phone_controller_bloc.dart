@@ -9,7 +9,8 @@ part 'phone_controller_event.dart';
 
 part 'phone_controller_state.dart';
 
-class PhoneControllerBloc extends Bloc<PhoneControllerEvent, PhoneControllerState> {
+class PhoneControllerBloc
+    extends Bloc<PhoneControllerEvent, PhoneControllerState> {
   PhoneControllerBloc() : super(PhoneControllerState()) {
     on<LoadCountryCodesEvent>(
       (event, emit) {
@@ -54,7 +55,9 @@ class PhoneControllerBloc extends Bloc<PhoneControllerEvent, PhoneControllerStat
         return;
       } else {
         List<CountryCodes> searchedCountryCodes = state.countryCodes
-            .where((element) => element.country.toLowerCase().contains(event.searchQuery.toLowerCase()))
+            .where((element) => element.country
+                .toLowerCase()
+                .contains(event.searchQuery.toLowerCase()))
             .toList();
         emit(state.copyWith(searchedCountryCodes: searchedCountryCodes));
       }
