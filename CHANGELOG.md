@@ -11,3 +11,4 @@
 - Added example file to the package
 - Updated all packages to the latest version
 - Some minor changes in the code
+- Formatted the code
