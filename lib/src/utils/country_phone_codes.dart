@@ -598,13 +598,6 @@ const List<Map<String, dynamic>> countryPhoneCodes = <Map<String, dynamic>>[
     'phoneMask': '## ### ## ##',
   },
   {
-    'country': 'Israel',
-    'countryRU': 'Израиль',
-    'internalPhoneCode': '972',
-    'countryCode': 'IL',
-    'phoneMask': '## ### ## ##',
-  },
-  {
     'country': 'Italy',
     'countryRU': 'Италия',
     'internalPhoneCode': '39',

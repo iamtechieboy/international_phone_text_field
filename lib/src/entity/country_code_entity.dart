@@ -15,6 +15,8 @@ class CountryCodes extends Equatable {
     this.phoneMask = '',
   });
 
+
+
   bool isNotEmpty() {
     return country.isNotEmpty &&
         countryRU.isNotEmpty &&

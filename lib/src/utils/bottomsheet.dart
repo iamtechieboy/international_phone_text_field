@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:international_phone_text_field/src/controller/phone_controller_bloc.dart';
 import 'package:international_phone_text_field/src/entity/country_code_entity.dart';
 
@@ -27,8 +28,8 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
       builder: (_, state) {
         return Material(
           child: DraggableScrollableSheet(
-            maxChildSize: .95,
-            initialChildSize: .95,
+            maxChildSize: .93,
+            initialChildSize: .93,
             minChildSize: .5,
             expand: false,
             builder: (BuildContext context, ScrollController scrollController) {
@@ -36,51 +37,66 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                 color: Colors.white,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 56,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            left: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: SvgPicture.asset(
+                                  'assets/icons/newUI/18/chevron_left18.svg',
+                                ),
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              'Select Country',
+                              style: Theme.of(context).textTheme.headlineLarge,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
-                            height: 44,
+                            height: 48,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
-                            margin: const EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 16)
-                                .copyWith(right: 0),
+                            margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16).copyWith(right: 0),
                             decoration: BoxDecoration(
-                              color: Colors.white24,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: Colors.grey.shade300,
-                              ),
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              borderRadius: BorderRadius.circular(24),
+                              border: Border.all(color: Theme.of(context).primaryColor, width: 3),
                             ),
                             child: Row(
                               children: [
-                                Icon(
-                                  Icons.search,
-                                  color: Colors.grey.shade500,
+                                SvgPicture.asset(
+                                  'assets/icons/newUI/16/search16.svg',
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(horizontal: 8),
                                     child: TextFormField(
                                       controller: controller,
                                       autofocus: true,
                                       onChanged: (String text) {
-                                        context
-                                            .read<PhoneControllerBloc>()
-                                            .add(SearchCountryCodesEvent(text));
+                                        context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(text));
                                       },
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                      ),
+                                      style: Theme.of(context).textTheme.headlineSmall,
                                       decoration: InputDecoration(
                                         hintText: "Search",
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey.shade400,
-                                          fontSize: 16,
-                                        ),
+                                        hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                              color: Colors.grey.shade500,
+                                            ),
                                         border: InputBorder.none,
                                       ),
                                     ),
@@ -93,9 +109,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                       return GestureDetector(
                                         onTap: () {
                                           controller.clear();
-                                          context
-                                              .read<PhoneControllerBloc>()
-                                              .add(SearchCountryCodesEvent(''));
+                                          context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
                                         },
                                         child: Icon(
                                           Icons.clear,
@@ -114,9 +128,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         GestureDetector(
                           onTap: () {
                             controller.clear();
-                            context
-                                .read<PhoneControllerBloc>()
-                                .add(SearchCountryCodesEvent(''));
+                            context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
                             Navigator.pop(context);
                           },
                           behavior: HitTestBehavior.opaque,
@@ -134,61 +146,50 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         )
                       ],
                     ),
+                    Divider(thickness: 2),
                     Expanded(
                       child: ListView.separated(
                         controller: scrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          CountryCodes? country =
-                              state.searchedCountryCodes[index];
+                          CountryCodes? country = state.searchedCountryCodes[index];
                           return GestureDetector(
                             onTap: () {
-                              context
-                                  .read<PhoneControllerBloc>()
-                                  .add(SelectCountryCodeEvent(country));
+                              context.read<PhoneControllerBloc>().add(SelectCountryCodeEvent(country));
                               Navigator.pop(context);
                               controller.clear();
-                              context
-                                  .read<PhoneControllerBloc>()
-                                  .add(SearchCountryCodesEvent(''));
+                              context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                               child: Row(
                                 children: [
                                   Container(
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(3),
                                       child: Image.asset(
-                                        'assets/flags/${country.countryCode.toLowerCase()}.png',
+                                        'assets/flag/${country.countryCode}.png',
                                         height: 20,
-                                        width: 38,
-                                        fit: BoxFit.cover,
+                                        width: 28,
+                                        fit: BoxFit.contain,
+                                        package: "international_phone_text_field",
                                       ),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
-                                    child: Text.rich(
-                                      TextSpan(
-                                        text: country.country,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                                    child: Text(
+                                      country.country,
+                                      style: Theme.of(context).textTheme.headlineSmall!,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Text(
                                     "+${country.internalPhoneCode}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey.shade500,
-                                    ),
+                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                          color: Theme.of(context).colorScheme.secondary,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -196,10 +197,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           );
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(
-                            indent: 10,
-                            color: Colors.grey.shade300,
-                          );
+                          return Divider(thickness: 2);
                         },
                         itemCount: state.searchedCountryCodes.length,
                       ),
