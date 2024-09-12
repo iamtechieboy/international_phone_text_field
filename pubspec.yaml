@@ -15,7 +15,7 @@ dependencies:
   equatable: ^2.0.5
   mask_text_input_formatter: ^2.9.0
   formz: ^0.7.0
-  flutter_svg: ^0.22.0
+  flutter_svg:
 
   cupertino_icons: ^1.0.8
   flutter:
