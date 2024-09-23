@@ -308,15 +308,15 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
     );
   }
 
-  @override
-  dispose() {
-    phoneController.dispose();
-    codeController.dispose();
-    _phoneFocusNode.dispose();
-    _codeFocusNode.dispose();
-    controllerBloc.close();
-    super.dispose();
-  }
+  // @override
+  // dispose() {
+  //   // phoneController.dispose();
+  //   // codeController.dispose();
+  //   // _phoneFocusNode.dispose();
+  //   // _codeFocusNode.dispose();
+  //   // controllerBloc.close();
+  //   // super.dispose();
+  // }
 
   void showCountryList(PhoneControllerBloc bloc) async {
     return await showModalBottomSheet(
