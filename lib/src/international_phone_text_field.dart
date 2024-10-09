@@ -26,6 +26,9 @@ class InternationalPhoneTextField extends StatefulWidget {
   /// Not found number message to show when phone number is not selected
   /// Default is "Your phone number"
   final String notFoundNumberMessage;
+  final String titleMessage;
+  final String searchMessage;
+  final String cancel;
 
   /// Auto focus for the phone number field
   /// Default is false
@@ -70,6 +73,9 @@ class InternationalPhoneTextField extends StatefulWidget {
     this.dividerColor = Colors.black12,
     this.inOneLine = false,
     this.decoration,
+    this.titleMessage = "Country",
+    this.searchMessage = "Search",
+    this.cancel = "Search",
   }) : super(key: key);
 
   @override
@@ -337,7 +343,11 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
         ),
         child: BlocProvider.value(
           value: bloc,
-          child: CountriesBottomSheet(),
+          child: CountriesBottomSheet(
+            searchText: widget.searchMessage,
+            title: widget.titleMessage,
+            cancel: widget.cancel,
+          ),
         ),
       ),
     );

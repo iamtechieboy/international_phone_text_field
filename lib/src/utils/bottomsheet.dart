@@ -7,7 +7,13 @@ import 'package:international_phone_text_field/src/entity/country_code_entity.da
 class CountriesBottomSheet extends StatefulWidget {
   const CountriesBottomSheet({
     super.key,
+    required this.searchText,
+    required this.title, required this.cancel,
   });
+
+  final String searchText;
+  final String title;
+  final String cancel;
 
   @override
   State<CountriesBottomSheet> createState() => _CountriesBottomSheetState();
@@ -57,7 +63,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           ),
                           Center(
                             child: Text(
-                              'Select Country',
+                              widget.title,
                               style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
@@ -93,7 +99,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                       },
                                       style: Theme.of(context).textTheme.headlineSmall,
                                       decoration: InputDecoration(
-                                        hintText: "Search",
+                                        hintText: widget.searchText,
                                         hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                               color: Colors.grey.shade500,
                                             ),
@@ -135,7 +141,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              'Cancel',
+                              widget.cancel,
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 14,
