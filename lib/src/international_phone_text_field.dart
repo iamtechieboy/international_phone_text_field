@@ -182,7 +182,7 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                             cursorColor: widget.cursorColor,
                           ),
                           SvgPicture.asset(
-                            "assets/icons/newUI/18/chevron_down_18.svg",
+                            "assets/icons/18/chevron_down_18.svg",
                           ),
                           SizedBox(width: 10),
                         ],
