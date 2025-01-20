@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:international_phone_text_field/src/controller/phone_controller_bloc.dart';
 import 'package:international_phone_text_field/src/entity/country_code_entity.dart';
 
 class CountriesBottomSheet extends StatefulWidget {
   const CountriesBottomSheet({
     super.key,
-    required this.searchText,
-    required this.title, required this.cancel,
   });
-
-  final String searchText;
-  final String title;
-  final String cancel;
 
   @override
   State<CountriesBottomSheet> createState() => _CountriesBottomSheetState();
@@ -34,8 +27,8 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
       builder: (_, state) {
         return Material(
           child: DraggableScrollableSheet(
-            maxChildSize: .93,
-            initialChildSize: .93,
+            maxChildSize: .95,
+            initialChildSize: .95,
             minChildSize: .5,
             expand: false,
             builder: (BuildContext context, ScrollController scrollController) {
@@ -43,50 +36,26 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 56,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: SvgPicture.asset(
-                                  'assets/icons/newUI/18/chevron_left18.svg',
-                                ),
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              widget.title,
-                              style: Theme.of(context).textTheme.headlineLarge,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Row(
                       children: [
                         Expanded(
                           child: Container(
-                            height: 48,
+                            height: 44,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16).copyWith(right: 0),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                              borderRadius: BorderRadius.circular(24),
-                              border: Border.all(color: Theme.of(context).primaryColor, width: 3),
+                              color: Colors.white24,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                              ),
                             ),
                             child: Row(
                               children: [
-                                SvgPicture.asset(
-                                  'assets/icons/newUI/16/search16.svg',
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.grey.shade500,
                                 ),
                                 Expanded(
                                   child: Padding(
@@ -97,12 +66,16 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                       onChanged: (String text) {
                                         context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(text));
                                       },
-                                      style: Theme.of(context).textTheme.headlineSmall,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                      ),
                                       decoration: InputDecoration(
-                                        hintText: widget.searchText,
-                                        hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                              color: Colors.grey.shade500,
-                                            ),
+                                        hintText: "Search",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey.shade400,
+                                          fontSize: 16,
+                                        ),
                                         border: InputBorder.none,
                                       ),
                                     ),
@@ -141,7 +114,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              widget.cancel,
+                              'Cancel',
                               style: TextStyle(
                                 color: Colors.blue,
                                 fontSize: 14,
@@ -152,7 +125,6 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         )
                       ],
                     ),
-                    Divider(thickness: 2),
                     Expanded(
                       child: ListView.separated(
                         controller: scrollController,
@@ -168,16 +140,16 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               child: Row(
                                 children: [
                                   Container(
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(3),
                                       child: Image.asset(
-                                        'assets/flag/${country.countryCode}.png',
-                                        height: 20,
-                                        width: 28,
+                                        'assets/flag/${state.selectedCountryCode.countryCode}.png',
+                                        height: 18,
+                                        width: 34,
                                         fit: BoxFit.contain,
                                         package: "international_phone_text_field",
                                       ),
@@ -185,17 +157,24 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                   ),
                                   const SizedBox(width: 12),
                                   Expanded(
-                                    child: Text(
-                                      country.country,
-                                      style: Theme.of(context).textTheme.headlineSmall!,
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: country.country,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Text(
                                     "+${country.internalPhoneCode}",
-                                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          color: Theme.of(context).colorScheme.secondary,
-                                        ),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey.shade500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -203,7 +182,10 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           );
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(thickness: 2);
+                          return Divider(
+                            indent: 10,
+                            color: Colors.grey.shade300,
+                          );
                         },
                         itemCount: state.searchedCountryCodes.length,
                       ),

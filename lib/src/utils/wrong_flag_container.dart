@@ -8,8 +8,8 @@ class WrongFlagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 19,
-      width: 27,
+      height: 18,
+      width: 34,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(3),

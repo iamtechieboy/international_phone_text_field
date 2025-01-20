@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
 import 'package:international_phone_text_field/src/controller/phone_controller_bloc.dart';
 import 'package:international_phone_text_field/src/entity/country_code_entity.dart';
@@ -26,9 +25,6 @@ class InternationalPhoneTextField extends StatefulWidget {
   /// Not found number message to show when phone number is not selected
   /// Default is "Your phone number"
   final String notFoundNumberMessage;
-  final String titleMessage;
-  final String searchMessage;
-  final String cancel;
 
   /// Auto focus for the phone number field
   /// Default is false
@@ -73,9 +69,6 @@ class InternationalPhoneTextField extends StatefulWidget {
     this.dividerColor = Colors.black12,
     this.inOneLine = false,
     this.decoration,
-    this.titleMessage = "Country",
-    this.searchMessage = "Search",
-    this.cancel = "Search",
   }) : super(key: key);
 
   @override
@@ -138,81 +131,99 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
           }
         },
         builder: (_, state) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {
-                      showCountryList(
-                        controllerBloc,
-                      );
-                    },
-                    child: AnimatedBuilder(
-                      animation: _codeFocusNode,
-                      builder: (BuildContext context, Widget? child) {
-                        return Container(
-                          height: 56,
-                          decoration: widget.decoration ??
-                              BoxDecoration(
-                                border: Border.all(
-                                  width: 3,
-                                  color:
-                                      (_codeFocusNode.hasFocus) ? Theme.of(context).primaryColor : Colors.transparent,
-                                ),
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                borderRadius: BorderRadius.circular(28),
-                              ),
-                          child: child,
-                        );
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CountryTitle(
-                            state: state,
-                            notFoundCountryMessage: widget.notFoundCountryMessage,
-                          ),
-                          CodePartWidget(
-                            codeController: codeController,
-                            codeFocusNode: _codeFocusNode,
-                            controllerBloc: controllerBloc,
-                            style: widget.style,
-                            cursorColor: widget.cursorColor,
-                          ),
-                          SvgPicture.asset(
-                            "assets/icons/newUI/18/chevron_down_18.svg",
-                          ),
-                          SizedBox(width: 10),
-                        ],
+          return Container(
+            decoration: widget.inOneLine
+                ? widget.decoration ??
+                    BoxDecoration(
+                      border: Border.all(
+                        color: (_phoneFocusNode.hasFocus || _codeFocusNode.hasFocus)
+                            ? Colors.lightBlueAccent
+                            : Colors.black12,
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(12),
+                    )
+                : null,
+            child: Column(
+              children: [
+                /// If inOneLine is true, show only phone field
+                if (!widget.inOneLine) ...[
+                  CountryTitle(
+                    state: state,
+                    notFoundCountryMessage: widget.notFoundCountryMessage,
+                    inOneLine: widget.inOneLine,
+                    onTap: () => showCountryList(controllerBloc),
                   ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: AnimatedBuilder(
-                      animation: _phoneFocusNode,
-                      builder: (context, child) {
-                        return Container(
-                          padding: EdgeInsets.only(left: 16),
-                          height: 56,
-                          decoration: widget.decoration ??
-                              BoxDecoration(
-                                border: Border.all(
-                                  width: 3,
-                                  color:
-                                      (_phoneFocusNode.hasFocus) ? Theme.of(context).primaryColor : Colors.transparent,
-                                ),
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                borderRadius: BorderRadius.circular(28),
-                              ),
-                          child: child,
-                        );
-                      },
+                  SizedBox(height: 12),
+                  Divider(
+                    color: widget.dividerColor,
+                    height: 0,
+                  )
+                ],
+                Row(
+                  children: [
+                    if (widget.inOneLine) ...[
+                      CountryTitle(
+                        state: state,
+                        notFoundCountryMessage: widget.notFoundCountryMessage,
+                        inOneLine: widget.inOneLine,
+                        onTap: () => showCountryList(controllerBloc),
+                      ),
+                    ],
+                    CodePartWidget(
+                      codeController: codeController,
+                      codeFocusNode: _codeFocusNode,
+                      controllerBloc: controllerBloc,
+                      style: widget.style,
+                      cursorColor: widget.cursorColor,
+                    ),
+                    Container(
+                      width: 1,
+                      margin: EdgeInsets.symmetric(horizontal: 12),
+                      height: 30,
+                      color: widget.dividerColor,
+                    ),
+                    Flexible(
+                      fit: FlexFit.loose,
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
+                          TextFormField(
+                            keyboardType: TextInputType.phone,
+                            controller: phoneController,
+                            focusNode: _phoneFocusNode,
+                            maxLines: 1,
+                            maxLength: 20,
+                            autofocus: true,
+                            inputFormatters: formatter,
+                            style: widget.style,
+                            decoration: InputDecoration(
+                              counterText: "",
+                              border: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                            ),
+                            onChanged: (String text) {
+                              if (text.isEmpty) {
+                                _codeFocusNode.requestFocus();
+                              } else if (!state.selectedCountryCode.isNotEmpty()) {
+                                controllerBloc.add(FindCountryCode(code: text));
+                              } else {
+                                controllerBloc.add(AdditionalFinder(code: text));
+                              }
+
+                              var actualText = phoneFormatter(mask: state.selectedCountryCode.phoneMask)
+                                  .unmaskText(text.replaceAll(nonWidthSpace, ""));
+                              widget.onChanged("+${state.selectedCountryCode.internalPhoneCode}${actualText}");
+                            },
+                            onTap: () {
+                              if (phoneController.text.isEmpty) {
+                                phoneController.text = nonWidthSpace;
+                              }
+                            },
+                          ),
+
                           /// This is a hint text field to show the mask of the phone number
                           IgnorePointer(
                             child: ValueListenableBuilder(
@@ -259,70 +270,28 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                               },
                             ),
                           ),
-
-                          /// This is the actual phone number field
-                          TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: phoneController,
-                            focusNode: _phoneFocusNode,
-                            maxLines: 1,
-                            maxLength: 20,
-                            autofocus: true,
-                            inputFormatters: formatter,
-                            style: widget.style,
-                            decoration: InputDecoration(
-                              counterText: "",
-                              border: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                            ),
-                            onChanged: (String text) {
-                              if (text.isEmpty) {
-                                _codeFocusNode.requestFocus();
-                              } else if (!state.selectedCountryCode.isNotEmpty()) {
-                                controllerBloc.add(FindCountryCode(code: text));
-                              } else {
-                                controllerBloc.add(AdditionalFinder(code: text));
-                              }
-
-                              var actualText = phoneFormatter(mask: state.selectedCountryCode.phoneMask)
-                                  .unmaskText(text.replaceAll(nonWidthSpace, ""));
-                              widget.onChanged("+${state.selectedCountryCode.internalPhoneCode}${actualText}");
-                              if (text.length == state.selectedCountryCode.phoneMask.length) {
-                                _phoneFocusNode.unfocus();
-                              }
-                            },
-                            onTap: () {
-                              if (phoneController.text.isEmpty) {
-                                phoneController.text = nonWidthSpace;
-                              }
-                            },
-                          ),
                         ],
                       ),
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                ],
-              ),
-            ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           );
         },
       ),
     );
   }
 
-  // @override
-  // dispose() {
-  //   // phoneController.dispose();
-  //   // codeController.dispose();
-  //   // _phoneFocusNode.dispose();
-  //   // _codeFocusNode.dispose();
-  //   // controllerBloc.close();
-  //   // super.dispose();
-  // }
+  @override
+  dispose() {
+    phoneController.dispose();
+    codeController.dispose();
+    _phoneFocusNode.dispose();
+    _codeFocusNode.dispose();
+    controllerBloc.close();
+    super.dispose();
+  }
 
   void showCountryList(PhoneControllerBloc bloc) async {
     return await showModalBottomSheet(
@@ -343,11 +312,7 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
         ),
         child: BlocProvider.value(
           value: bloc,
-          child: CountriesBottomSheet(
-            searchText: widget.searchMessage,
-            title: widget.titleMessage,
-            cancel: widget.cancel,
-          ),
+          child: CountriesBottomSheet(),
         ),
       ),
     );
