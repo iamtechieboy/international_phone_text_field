@@ -147,7 +147,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(3),
                                       child: Image.asset(
-                                        'assets/flag/${state.selectedCountryCode.countryCode}.png',
+                                        'assets/flag/${country.country}.png',
                                         height: 18,
                                         width: 34,
                                         fit: BoxFit.contain,
