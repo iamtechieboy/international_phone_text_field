@@ -20,3 +20,7 @@
 ## 0.0.1+4
 
 - Some minor changes in the code
+
+## 0.0.1+5
+
+- Some minor changes in the code
