@@ -3,7 +3,7 @@ import 'package:international_phone_text_field/international_phone_text_field.da
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       home: MyApp(),
     ),
   );
