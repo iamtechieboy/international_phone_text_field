@@ -19,6 +19,12 @@ class InternationalPhoneTextField extends StatefulWidget {
   /// Default is Colors.black
   final Color cursorColor;
 
+  /// Fill color of the phone number field
+  final Color? fillColor;
+
+  /// Border color of the phone number field
+  final Color? borderColor;
+
   /// Not found country message to show when country is not selected
   /// Default is "Country"
   final String notFoundCountryMessage;
@@ -76,6 +82,8 @@ class InternationalPhoneTextField extends StatefulWidget {
     this.titleMessage = "Country",
     this.searchMessage = "Search",
     this.cancel = "Search",
+    this.fillColor,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -159,9 +167,9 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                                 border: Border.all(
                                   width: 3,
                                   color:
-                                      (_codeFocusNode.hasFocus) ? Theme.of(context).primaryColor : Colors.transparent,
+                                      (_codeFocusNode.hasFocus) ? widget.borderColor ?? Theme.of(context).primaryColor : Colors.transparent,
                                 ),
-                                color: Theme.of(context).colorScheme.onPrimary,
+                                color: widget.fillColor ?? Theme.of(context).colorScheme.onPrimary,
                                 borderRadius: BorderRadius.circular(28),
                               ),
                           child: child,
@@ -202,9 +210,9 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                                 border: Border.all(
                                   width: 3,
                                   color:
-                                      (_phoneFocusNode.hasFocus) ? Theme.of(context).primaryColor : Colors.transparent,
+                                      (_phoneFocusNode.hasFocus) ? widget.borderColor ?? Theme.of(context).primaryColor : Colors.transparent,
                                 ),
-                                color: Theme.of(context).colorScheme.onPrimary,
+                                color: widget.fillColor ?? Theme.of(context).colorScheme.onPrimary,
                                 borderRadius: BorderRadius.circular(28),
                               ),
                           child: child,
