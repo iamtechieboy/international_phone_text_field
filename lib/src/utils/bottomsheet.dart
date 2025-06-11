@@ -67,7 +67,9 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           Center(
                             child: Text(
                               widget.title,
-                              style: Theme.of(context).textTheme.headlineLarge,
+                              style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                             ),
                           ),
                         ],
@@ -82,9 +84,9 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16).copyWith(right: 0),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.onPrimary,
+                              color: Theme.of(context).colorScheme.onInverseSurface,
                               borderRadius: BorderRadius.circular(24),
-                              border: Border.all(color: Theme.of(context).primaryColor, width: 3),
+                              border: Border.all(color: Theme.of(context).colorScheme.onInverseSurface, width: 3),
                             ),
                             child: Row(
                               children: [
@@ -203,7 +205,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                   Text(
                                     "+${country.internalPhoneCode}",
                                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          color: Theme.of(context).colorScheme.onSecondary,
+                                          color: Colors.grey.shade300,
                                         ),
                                   ),
                                 ],
