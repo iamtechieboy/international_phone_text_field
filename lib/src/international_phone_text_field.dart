@@ -29,6 +29,9 @@ class InternationalPhoneTextField extends StatefulWidget {
   /// Default is "Country"
   final String notFoundCountryMessage;
 
+  /// Keyboard appearance for the phone number field
+  final Brightness? keyboardAppearance;
+
   /// Not found number message to show when phone number is not selected
   /// Default is "Your phone number"
   final String notFoundNumberMessage;
@@ -84,6 +87,7 @@ class InternationalPhoneTextField extends StatefulWidget {
     this.cancel = "Search",
     this.fillColor,
     this.borderColor,
+    this.keyboardAppearance,
   }) : super(key: key);
 
   @override
@@ -166,8 +170,9 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                               BoxDecoration(
                                 border: Border.all(
                                   width: 3,
-                                  color:
-                                      (_codeFocusNode.hasFocus) ? widget.borderColor ?? Theme.of(context).primaryColor : Colors.transparent,
+                                  color: (_codeFocusNode.hasFocus)
+                                      ? widget.borderColor ?? Theme.of(context).primaryColor
+                                      : Colors.transparent,
                                 ),
                                 color: widget.fillColor ?? Theme.of(context).colorScheme.onPrimary,
                                 borderRadius: BorderRadius.circular(28),
@@ -209,8 +214,9 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                               BoxDecoration(
                                 border: Border.all(
                                   width: 3,
-                                  color:
-                                      (_phoneFocusNode.hasFocus) ? widget.borderColor ?? Theme.of(context).primaryColor : Colors.transparent,
+                                  color: (_phoneFocusNode.hasFocus)
+                                      ? widget.borderColor ?? Theme.of(context).primaryColor
+                                      : Colors.transparent,
                                 ),
                                 color: widget.fillColor ?? Theme.of(context).colorScheme.onPrimary,
                                 borderRadius: BorderRadius.circular(28),
@@ -252,6 +258,7 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                                 return TextField(
                                   style: widget.hintStyle,
                                   controller: hintController,
+                                  keyboardAppearance: widget.keyboardAppearance,
                                   decoration: InputDecoration(
                                     enabled: false,
                                     counterText: "",
@@ -278,6 +285,7 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
                             autofocus: true,
                             inputFormatters: formatter,
                             style: widget.style,
+                            keyboardAppearance: widget.keyboardAppearance,
                             decoration: InputDecoration(
                               counterText: "",
                               border: InputBorder.none,
@@ -355,6 +363,7 @@ class _InternationalPhoneTextFieldState extends State<InternationalPhoneTextFiel
             searchText: widget.searchMessage,
             title: widget.titleMessage,
             cancel: widget.cancel,
+            keyboardAppearance: widget.keyboardAppearance,
           ),
         ),
       ),

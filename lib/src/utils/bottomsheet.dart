@@ -8,12 +8,15 @@ class CountriesBottomSheet extends StatefulWidget {
   const CountriesBottomSheet({
     super.key,
     required this.searchText,
-    required this.title, required this.cancel,
+    required this.title,
+    required this.cancel,
+    required this.keyboardAppearance,
   });
 
   final String searchText;
   final String title;
   final String cancel;
+  final Brightness? keyboardAppearance;
 
   @override
   State<CountriesBottomSheet> createState() => _CountriesBottomSheetState();
@@ -40,7 +43,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
             expand: false,
             builder: (BuildContext context, ScrollController scrollController) {
               return ColoredBox(
-                color: Colors.white,
+                color: Theme.of(context).cardColor,
                 child: Column(
                   children: [
                     SizedBox(
@@ -94,10 +97,14 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                     child: TextFormField(
                                       controller: controller,
                                       autofocus: true,
+                                      keyboardAppearance: widget.keyboardAppearance,
                                       onChanged: (String text) {
                                         context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(text));
                                       },
-                                      style: Theme.of(context).textTheme.headlineSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall!
+                                          .copyWith(color: Theme.of(context).colorScheme.primary),
                                       decoration: InputDecoration(
                                         hintText: widget.searchText,
                                         hintStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -187,14 +194,16 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                   Expanded(
                                     child: Text(
                                       country.country,
-                                      style: Theme.of(context).textTheme.headlineSmall!,
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                            color: Theme.of(context).colorScheme.primary,
+                                          ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Text(
                                     "+${country.internalPhoneCode}",
                                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                          color: Theme.of(context).colorScheme.secondary,
+                                          color: Theme.of(context).colorScheme.onSecondary,
                                         ),
                                   ),
                                 ],
@@ -203,7 +212,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                           );
                         },
                         separatorBuilder: (context, index) {
-                          return Divider(thickness: 2);
+                          return Divider(thickness: 1);
                         },
                         itemCount: state.searchedCountryCodes.length,
                       ),
