@@ -36,13 +36,13 @@ and the Flutter guide for
 
 ## Features
 
-![banner](https://github.com/iamtechieboy/international_phone_text_field/blob/master/assets/banner.png)
+![banner](https://raw.githubusercontent.com/iamtechieboy/international_phone_text_field/master/assets/banner.png)
 
 ### There are two versions of the widget:
 
 | One line version                                                                                      | Two line version                                                                                      |
 |-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| ![verions1](https://raw.githubusercontent.com/iamtechieboy/international_phone_text_field/master/assets/oneLine.gif) | ![verions1](https://github.com/iamtechieboy/international_phone_text_field/blob/master/assets/twoLine.gif) |
+| ![verions1](https://raw.githubusercontent.com/iamtechieboy/international_phone_text_field/master/assets/oneLine.gif) | ![verions1](https://raw.githubusercontent.com/iamtechieboy/international_phone_text_field/master/assets/twoLine.gif) |
 
 ## Getting started
 
