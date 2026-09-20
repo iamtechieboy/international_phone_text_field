@@ -13,6 +13,6 @@
 - Some minor changes in the code
 - Formatted the code
 
-## 0.0.1+7
+## 0.0.2
 
 - Some minor changes in the code
