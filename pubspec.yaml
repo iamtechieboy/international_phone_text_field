@@ -1,22 +1,33 @@
 name: international_phone_text_field
-description: A Flutter package for international phone field with country code.
+description: Simple and customizable, with two built-in styles phone field with international country code. Automatically formatting and finding country codes.
 homepage: https://github.com/iamtechieboy/international_phone_text_field
-version: 0.0.1+7
+version: 0.0.1+8
+screenshots:
+  - description: Main features of the package.
+    path: screenshots/banner.png
+  - description: One line version of the package.
+    path: screenshots/oneLine.gif
+  - description: Two line version of the package.
+    path: screenshots/twoLine.gif
+topics:
+  - textfield
+  - international-format
+  - phone-input
+  - widgets
+  - ui
 
 environment:
-  sdk: '>=2.19.0 <4.0.0'
-  flutter: '>=3.7.0'
-
+  sdk: ">=2.19.0 <4.0.0"
+  flutter: ">=3.7.0"
 
 dependencies:
-
-  flutter_bloc: ^8.1.6
-  bloc: ^8.1.4
-  equatable: ^2.0.5
+  flutter_bloc: ^9.1.1
+  bloc: ^9.2.1
+  equatable: ^3.0.0
   mask_text_input_formatter: ^2.9.0
-  formz: ^0.7.0
+  formz: ^0.8.0
 
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.9
   flutter:
     sdk: flutter
 

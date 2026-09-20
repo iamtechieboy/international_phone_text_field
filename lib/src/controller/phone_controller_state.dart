@@ -15,7 +15,7 @@ class PhoneControllerState extends Equatable {
     this.findStatus = FormzSubmissionStatus.initial,
   });
 
-  copyWith({
+  PhoneControllerState copyWith({
     List<CountryCodes>? countryCodes,
     List<CountryCodes>? searchedCountryCodes,
     CountryCodes? selectedCountryCode,
