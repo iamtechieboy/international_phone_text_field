@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:international_phone_text_field/src/controller/phone_controller_bloc.dart';
 import 'package:international_phone_text_field/src/entity/country_code_entity.dart';
+import 'package:international_phone_text_field/src/international_phone_text_field_theme.dart';
+import 'package:international_phone_text_field/src/utils/wrong_flag_container.dart';
 
 class CountriesBottomSheet extends StatefulWidget {
   const CountriesBottomSheet({
     super.key,
+    this.theme = const InternationalPhoneTextFieldTheme(),
   });
+
+  final InternationalPhoneTextFieldTheme theme;
 
   @override
   State<CountriesBottomSheet> createState() => _CountriesBottomSheetState();
@@ -26,14 +31,15 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
     return BlocBuilder<PhoneControllerBloc, PhoneControllerState>(
       builder: (_, state) {
         return Material(
+          color: widget.theme.sheetBackgroundColor,
           child: DraggableScrollableSheet(
-            maxChildSize: .95,
-            initialChildSize: .95,
+            maxChildSize: .90,
+            initialChildSize: .90,
             minChildSize: .5,
             expand: false,
             builder: (BuildContext context, ScrollController scrollController) {
               return ColoredBox(
-                color: Colors.white,
+                color: widget.theme.sheetBackgroundColor,
                 child: Column(
                   children: [
                     Row(
@@ -43,39 +49,40 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                             height: 44,
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
-                            margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16).copyWith(right: 0),
+                            margin: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16)
+                                .copyWith(right: 0),
                             decoration: BoxDecoration(
-                              color: Colors.white24,
+                              color: widget.theme.searchBackgroundColor,
                               borderRadius: BorderRadius.circular(16),
                               border: Border.all(
-                                color: Colors.grey.shade300,
+                                color: widget.theme.searchBorderColor,
                               ),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.search,
-                                  color: Colors.grey.shade500,
+                                  color: widget.theme.searchIconColor,
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
                                     child: TextFormField(
                                       controller: controller,
                                       autofocus: true,
+                                      cursorColor:
+                                          widget.theme.searchCursorColor,
                                       onChanged: (String text) {
-                                        context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(text));
+                                        context
+                                            .read<PhoneControllerBloc>()
+                                            .add(SearchCountryCodesEvent(text));
                                       },
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                      ),
+                                      style: widget.theme.searchTextStyle,
                                       decoration: InputDecoration(
-                                        hintText: "Search",
-                                        hintStyle: TextStyle(
-                                          color: Colors.grey.shade400,
-                                          fontSize: 16,
-                                        ),
+                                        hintText: widget.theme.searchHint,
+                                        hintStyle: widget.theme.searchHintStyle,
                                         border: InputBorder.none,
                                       ),
                                     ),
@@ -88,11 +95,13 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                       return GestureDetector(
                                         onTap: () {
                                           controller.clear();
-                                          context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                                          context
+                                              .read<PhoneControllerBloc>()
+                                              .add(SearchCountryCodesEvent(''));
                                         },
                                         child: Icon(
                                           Icons.clear,
-                                          color: Colors.grey.shade500,
+                                          color: widget.theme.clearIconColor,
                                         ),
                                       );
                                     } else {
@@ -107,19 +116,17 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         GestureDetector(
                           onTap: () {
                             controller.clear();
-                            context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                            context
+                                .read<PhoneControllerBloc>()
+                                .add(SearchCountryCodesEvent(''));
                             Navigator.pop(context);
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              widget.theme.cancelLabel,
+                              style: widget.theme.cancelTextStyle,
                             ),
                           ),
                         )
@@ -130,28 +137,38 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         controller: scrollController,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          CountryCodes? country = state.searchedCountryCodes[index];
+                          CountryCodes? country =
+                              state.searchedCountryCodes[index];
                           return GestureDetector(
                             onTap: () {
-                              context.read<PhoneControllerBloc>().add(SelectCountryCodeEvent(country));
+                              context
+                                  .read<PhoneControllerBloc>()
+                                  .add(SelectCountryCodeEvent(country));
                               Navigator.pop(context);
                               controller.clear();
-                              context.read<PhoneControllerBloc>().add(SearchCountryCodesEvent(''));
+                              context
+                                  .read<PhoneControllerBloc>()
+                                  .add(SearchCountryCodesEvent(''));
                             },
                             behavior: HitTestBehavior.opaque,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
                               child: Row(
                                 children: [
                                   Container(
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(3),
                                       child: Image.asset(
-                                        'assets/flag/${country.country}.png',
+                                        'assets/flag/${country.countryCode}.png',
                                         height: 18,
                                         width: 34,
                                         fit: BoxFit.contain,
                                         package: "international_phone_text_field",
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                WrongFlagContainer(
+                                                    theme: widget.theme),
                                       ),
                                     ),
                                   ),
@@ -160,21 +177,15 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                                     child: Text.rich(
                                       TextSpan(
                                         text: country.country,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
+                                        style:
+                                            widget.theme.sheetCountryTextStyle,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Text(
                                     "+${country.internalPhoneCode}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey.shade500,
-                                    ),
+                                    style: widget.theme.sheetDialCodeTextStyle,
                                   ),
                                 ],
                               ),
@@ -184,7 +195,7 @@ class _CountriesBottomSheetState extends State<CountriesBottomSheet> {
                         separatorBuilder: (context, index) {
                           return Divider(
                             indent: 10,
-                            color: Colors.grey.shade300,
+                            color: widget.theme.sheetDividerColor,
                           );
                         },
                         itemCount: state.searchedCountryCodes.length,

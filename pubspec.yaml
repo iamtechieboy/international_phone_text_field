@@ -1,7 +1,7 @@
 name: international_phone_text_field
 description: Simple and customizable, with two built-in styles phone field with international country code. Automatically formatting and finding country codes.
 homepage: https://github.com/iamtechieboy/international_phone_text_field
-version: 0.0.2
+version: 0.0.3
 screenshots:
   - description: Main features of the package.
     path: screenshots/banner.png

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:international_phone_text_field/src/controller/phone_controller_bloc.dart';
+import 'package:international_phone_text_field/src/international_phone_text_field_theme.dart';
 import 'package:international_phone_text_field/src/utils/wrong_flag_container.dart';
 
 class CountryTitle extends StatelessWidget {
   CountryTitle({
     super.key,
     required this.state,
+    required this.theme,
     this.style = const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
     required this.onTap,
     required this.notFoundCountryMessage,
@@ -14,6 +16,7 @@ class CountryTitle extends StatelessWidget {
   });
 
   final PhoneControllerState state;
+  final InternationalPhoneTextFieldTheme theme;
   final TextStyle style;
   final TextStyle? countryTextStyle;
   final Function() onTap;
@@ -41,37 +44,27 @@ class CountryTitle extends StatelessWidget {
                     width: 34,
                     fit: BoxFit.contain,
                     package: "international_phone_text_field",
-                    errorBuilder: (context, error, stackTrace) => WrongFlagContainer(),
+                    errorBuilder: (context, error, stackTrace) => WrongFlagContainer(theme: theme),
                   ),
                 )
               else
-                WrongFlagContainer(),
+                WrongFlagContainer(theme: theme),
               if (!inOneLine) ...[
                 SizedBox(width: 8),
                 Text(
                   state.selectedCountryCode.country,
-                  style: countryTextStyle ??
-                      TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blue,
-                      ),
+                  style: countryTextStyle ?? theme.countryTextStyle,
                 ),
               ]
             ],
           ),
           secondChild: inOneLine
-              ? WrongFlagContainer()
+              ? WrongFlagContainer(theme: theme)
               : Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     notFoundCountryMessage,
-                    style: countryTextStyle ??
-                        TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.blue,
-                        ),
+                    style: countryTextStyle ?? theme.countryTextStyle,
                   ),
                 ),
           crossFadeState: state.selectedCountryCode.isNotEmpty() ? CrossFadeState.showFirst : CrossFadeState.showSecond,
